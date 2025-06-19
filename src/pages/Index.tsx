@@ -17,7 +17,7 @@ const Index = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Olá! Sou seu assistente de IA. Como posso ajudá-lo hoje?",
+      content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
       isUser: false,
       timestamp: new Date(Date.now() - 120000)
     },
@@ -61,7 +61,7 @@ const Index = () => {
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Obrigado pela sua mensagem! Sou um assistente de IA de demonstração. Em uma implementação real, isso se conectaria a um serviço de IA real como GPT da OpenAI, Claude ou outros modelos de linguagem para fornecer respostas inteligentes.",
+        content: "Obrigado pela sua mensagem! Sou o Danzin IA, seu assistente inteligente. Em uma implementação real, isso se conectaria ao GPT-4 da OpenAI para fornecer respostas inteligentes e úteis.",
         isUser: false,
         timestamp: new Date()
       };
@@ -74,7 +74,7 @@ const Index = () => {
   const startNewChat = () => {
     setMessages([{
       id: Date.now().toString(),
-      content: "Olá! Sou seu assistente de IA. Como posso ajudá-lo hoje?",
+      content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
       isUser: false,
       timestamp: new Date()
     }]);
@@ -120,7 +120,7 @@ const Index = () => {
               <Bot size={16} />
             </div>
             <div>
-              <div className="text-sm font-medium">Assistente IA</div>
+              <div className="text-sm font-medium">Danzin IA</div>
               <div className="text-xs text-gray-400">Online</div>
             </div>
           </div>
@@ -136,8 +136,8 @@ const Index = () => {
               <Menu size={20} />
             </Button>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">Assistente de Chat IA</h1>
-              <p className="text-sm text-gray-500">Alimentado por modelos de linguagem avançados</p>
+              <h1 className="text-lg font-semibold text-gray-900">Danzin IA</h1>
+              <p className="text-sm text-gray-500">Assistente inteligente alimentado por GPT-4</p>
             </div>
           </div>
         </div>
