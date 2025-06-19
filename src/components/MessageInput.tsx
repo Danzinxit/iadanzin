@@ -45,7 +45,7 @@ const MessageInput = ({ onSendMessage, disabled = false }: MessageInputProps) =>
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Type your message here..."
+              placeholder="Digite sua mensagem aqui..."
               disabled={disabled}
               className="min-h-[44px] max-h-32 resize-none border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl pr-12"
               rows={1}
@@ -62,7 +62,7 @@ const MessageInput = ({ onSendMessage, disabled = false }: MessageInputProps) =>
         </div>
         
         <div className="text-xs text-gray-500 text-center">
-          Press Enter to send, Shift + Enter for new line
+          Pressione Enter para enviar, Shift + Enter para nova linha
         </div>
       </form>
     </div>
