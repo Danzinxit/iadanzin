@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from '@/components/ChatMessage';
 import MessageInput from '@/components/MessageInput';
 import TypingIndicator from '@/components/TypingIndicator';
+import ConversationHistory from '@/components/ConversationHistory';
 import { Button } from '@/components/ui/button';
 import { Bot, Plus, Menu } from 'lucide-react';
 
@@ -13,30 +14,48 @@ interface Message {
   timestamp: Date;
 }
 
+interface Conversation {
+  id: string;
+  title: string;
+  messages: Message[];
+  lastUpdated: Date;
+}
+
 const Index = () => {
-  const [messages, setMessages] = useState<Message[]>([
+  const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: '1',
-      content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
-      isUser: false,
-      timestamp: new Date(Date.now() - 120000)
-    },
-    {
-      id: '2',
-      content: "Oi! Você pode me ajudar a entender como funcionam os modelos de linguagem de IA?",
-      isUser: true,
-      timestamp: new Date(Date.now() - 60000)
-    },
-    {
-      id: '3',
-      content: "Claro! Os modelos de linguagem de IA como eu são redes neurais treinadas em vastas quantidades de dados de texto. Aprendemos padrões na linguagem para gerar respostas semelhantes às humanas. O processo de treinamento envolve prever a próxima palavra em sequências, o que nos ajuda a entender contexto, gramática e significado. Isso nos permite participar de conversas, responder perguntas e auxiliar em várias tarefas. Há algum aspecto específico que você gostaria de explorar mais?",
-      isUser: false,
-      timestamp: new Date(Date.now() - 30000)
+      title: 'Discussão sobre Modelos de IA',
+      lastUpdated: new Date(Date.now() - 120000),
+      messages: [
+        {
+          id: '1',
+          content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+          isUser: false,
+          timestamp: new Date(Date.now() - 120000)
+        },
+        {
+          id: '2',
+          content: "Oi! Você pode me ajudar a entender como funcionam os modelos de linguagem de IA?",
+          isUser: true,
+          timestamp: new Date(Date.now() - 60000)
+        },
+        {
+          id: '3',
+          content: "Claro! Os modelos de linguagem de IA como eu são redes neurais treinadas em vastas quantidades de dados de texto. Aprendemos padrões na linguagem para gerar respostas semelhantes às humanas. O processo de treinamento envolve prever a próxima palavra em sequências, o que nos ajuda a entender contexto, gramática e significado. Isso nos permite participar de conversas, responder perguntas e auxiliar em várias tarefas. Há algum aspecto específico que você gostaria de explorar mais?",
+          isUser: false,
+          timestamp: new Date(Date.now() - 30000)
+        }
+      ]
     }
   ]);
   
+  const [currentConversationId, setCurrentConversationId] = useState<string>('1');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const currentConversation = conversations.find(conv => conv.id === currentConversationId);
+  const currentMessages = currentConversation?.messages || [];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,7 +63,7 @@ const Index = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping]);
+  }, [currentMessages, isTyping]);
 
   const handleSendMessage = async (content: string) => {
     const userMessage: Message = {
@@ -54,7 +73,17 @@ const Index = () => {
       timestamp: new Date()
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    // Atualizar a conversa atual com a nova mensagem
+    setConversations(prev => prev.map(conv => 
+      conv.id === currentConversationId 
+        ? { 
+            ...conv, 
+            messages: [...conv.messages, userMessage],
+            lastUpdated: new Date()
+          }
+        : conv
+    ));
+
     setIsTyping(true);
 
     // Simula o delay de resposta da IA
@@ -66,18 +95,63 @@ const Index = () => {
         timestamp: new Date()
       };
       
-      setMessages(prev => [...prev, aiResponse]);
+      setConversations(prev => prev.map(conv => 
+        conv.id === currentConversationId 
+          ? { 
+              ...conv, 
+              messages: [...conv.messages, aiResponse],
+              lastUpdated: new Date()
+            }
+          : conv
+      ));
       setIsTyping(false);
     }, 1500 + Math.random() * 2000);
   };
 
   const startNewChat = () => {
-    setMessages([{
+    const newConversation: Conversation = {
       id: Date.now().toString(),
-      content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
-      isUser: false,
-      timestamp: new Date()
-    }]);
+      title: 'Nova Conversa',
+      lastUpdated: new Date(),
+      messages: [{
+        id: Date.now().toString(),
+        content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+        isUser: false,
+        timestamp: new Date()
+      }]
+    };
+    
+    setConversations(prev => [newConversation, ...prev]);
+    setCurrentConversationId(newConversation.id);
+  };
+
+  const switchConversation = (conversationId: string) => {
+    setCurrentConversationId(conversationId);
+  };
+
+  const deleteConversation = (conversationId: string) => {
+    setConversations(prev => {
+      const filtered = prev.filter(conv => conv.id !== conversationId);
+      if (conversationId === currentConversationId && filtered.length > 0) {
+        setCurrentConversationId(filtered[0].id);
+      } else if (filtered.length === 0) {
+        // Se não há mais conversas, criar uma nova
+        const newConv: Conversation = {
+          id: Date.now().toString(),
+          title: 'Nova Conversa',
+          lastUpdated: new Date(),
+          messages: [{
+            id: Date.now().toString(),
+            content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+            isUser: false,
+            timestamp: new Date()
+          }]
+        };
+        setCurrentConversationId(newConv.id);
+        return [newConv];
+      }
+      return filtered;
+    });
   };
 
   return (
@@ -94,25 +168,12 @@ const Index = () => {
           </Button>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="space-y-2">
-            <div className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-3">
-              Conversas Recentes
-            </div>
-            <div className="p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors">
-              <div className="text-sm font-medium truncate">Discussão sobre Modelos de IA</div>
-              <div className="text-xs text-gray-400 mt-1">2 minutos atrás</div>
-            </div>
-            <div className="p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition-colors">
-              <div className="text-sm font-medium truncate">Guia de Introdução</div>
-              <div className="text-xs text-gray-400 mt-1">1 hora atrás</div>
-            </div>
-            <div className="p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition-colors">
-              <div className="text-sm font-medium truncate">Ajuda com Planejamento</div>
-              <div className="text-xs text-gray-400 mt-1">Ontem</div>
-            </div>
-          </div>
-        </div>
+        <ConversationHistory 
+          conversations={conversations}
+          currentConversationId={currentConversationId}
+          onSwitchConversation={switchConversation}
+          onDeleteConversation={deleteConversation}
+        />
         
         <div className="p-4 border-t border-gray-700">
           <div className="flex items-center space-x-3">
@@ -145,7 +206,7 @@ const Index = () => {
         {/* Mensagens */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
-            {messages.map((message) => (
+            {currentMessages.map((message) => (
               <ChatMessage
                 key={message.id}
                 message={message.content}
