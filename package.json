@@ -1,8 +1,9 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "danzin-ia-chat",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Chat com DANZIN IA - Vamos ter uma conversa dançante!",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

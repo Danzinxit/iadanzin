@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from '@/components/ChatMessage';
 import MessageInput from '@/components/MessageInput';
@@ -21,11 +20,24 @@ interface Conversation {
   lastUpdated: Date;
 }
 
+// Função para gerar UUID
+const generateUUID = (): string => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // Fallback para navegadores mais antigos
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
+
 const Index = () => {
   const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: '1',
-      title: 'Discussão sobre Modelos de IA',
+      title: 'Chat com DANZIN IA',
       lastUpdated: new Date(Date.now() - 120000),
       messages: [
         {
@@ -33,18 +45,6 @@ const Index = () => {
           content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
           isUser: false,
           timestamp: new Date(Date.now() - 120000)
-        },
-        {
-          id: '2',
-          content: "Oi! Você pode me ajudar a entender como funcionam os modelos de linguagem de IA?",
-          isUser: true,
-          timestamp: new Date(Date.now() - 60000)
-        },
-        {
-          id: '3',
-          content: "Claro! Os modelos de linguagem de IA como eu são redes neurais treinadas em vastas quantidades de dados de texto. Aprendemos padrões na linguagem para gerar respostas semelhantes às humanas. O processo de treinamento envolve prever a próxima palavra em sequências, o que nos ajuda a entender contexto, gramática e significado. Isso nos permite participar de conversas, responder perguntas e auxiliar em várias tarefas. Há algum aspecto específico que você gostaria de explorar mais?",
-          isUser: false,
-          timestamp: new Date(Date.now() - 30000)
         }
       ]
     }
@@ -52,10 +52,15 @@ const Index = () => {
   
   const [currentConversationId, setCurrentConversationId] = useState<string>('1');
   const [isTyping, setIsTyping] = useState(false);
+  const [isReceiving, setIsReceiving] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const websocketRef = useRef<WebSocket | null>(null);
+  const currentMessageRef = useRef<string>('');
 
   const currentConversation = conversations.find(conv => conv.id === currentConversationId);
   const currentMessages = currentConversation?.messages || [];
+
+  const systemPrompt = "Você é uma inteligência artificial criada para ter uma postura brincalhona e curiosa, sempre pronta para aprender e se envolver com o usuário em uma dança de conversa.";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -65,9 +70,116 @@ const Index = () => {
     scrollToBottom();
   }, [currentMessages, isTyping]);
 
+  const connectWebSocket = (message: string) => {
+    setIsReceiving(true);
+    setIsTyping(true);
+    
+    const url = "wss://backend.buildpicoapps.com/api/chatbot/chat";
+    const websocket = new WebSocket(url);
+    websocketRef.current = websocket;
+
+    // Criar mensagem da IA vazia inicialmente
+    const aiMessage: Message = {
+      id: generateUUID(),
+      content: "",
+      isUser: false,
+      timestamp: new Date()
+    };
+
+    // Adicionar mensagem da IA à conversa
+    setConversations(prev => prev.map(conv => 
+      conv.id === currentConversationId 
+        ? { 
+            ...conv, 
+            messages: [...conv.messages, aiMessage],
+            lastUpdated: new Date()
+          }
+        : conv
+    ));
+
+    websocket.addEventListener("open", () => {
+      websocket.send(
+        JSON.stringify({
+          chatId: currentConversationId,
+          appId: "three-box",
+          systemPrompt: systemPrompt,
+          message: message,
+        })
+      );
+    });
+
+    websocket.onmessage = (event) => {
+      currentMessageRef.current += event.data;
+      
+      // Atualizar a mensagem da IA com o conteúdo recebido
+      setConversations(prev => prev.map(conv => 
+        conv.id === currentConversationId 
+          ? { 
+              ...conv, 
+              messages: conv.messages.map(msg => 
+                msg.id === aiMessage.id 
+                  ? { ...msg, content: currentMessageRef.current }
+                  : msg
+              ),
+              lastUpdated: new Date()
+            }
+          : conv
+      ));
+      
+      scrollToBottom();
+    };
+
+    websocket.onclose = (event) => {
+      if (event.code === 1000) {
+        setIsReceiving(false);
+        setIsTyping(false);
+        currentMessageRef.current = '';
+      } else {
+        // Em caso de erro, adicionar mensagem de erro
+        setConversations(prev => prev.map(conv => 
+          conv.id === currentConversationId 
+            ? { 
+                ...conv, 
+                messages: conv.messages.map(msg => 
+                  msg.id === aiMessage.id 
+                    ? { ...msg, content: msg.content + " Erro ao obter resposta do servidor. Recarregue a página e tente novamente." }
+                    : msg
+                ),
+                lastUpdated: new Date()
+              }
+            : conv
+        ));
+        setIsReceiving(false);
+        setIsTyping(false);
+        currentMessageRef.current = '';
+      }
+    };
+
+    websocket.onerror = () => {
+      setConversations(prev => prev.map(conv => 
+        conv.id === currentConversationId 
+          ? { 
+              ...conv, 
+              messages: conv.messages.map(msg => 
+                msg.id === aiMessage.id 
+                  ? { ...msg, content: msg.content + " Erro de conexão. Tente novamente." }
+                  : msg
+              ),
+              lastUpdated: new Date()
+            }
+          : conv
+      ));
+      setIsReceiving(false);
+      setIsTyping(false);
+      currentMessageRef.current = '';
+    };
+  };
+
   const handleSendMessage = async (content: string) => {
+    if (isReceiving) return;
+
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: generateUUID(),
       content,
       isUser: true,
       timestamp: new Date()
@@ -84,33 +196,13 @@ const Index = () => {
         : conv
     ));
 
-    setIsTyping(true);
-
-    // Simula o delay de resposta da IA
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "Obrigado pela sua mensagem! Sou o Danzin IA, seu assistente inteligente. Em uma implementação real, isso se conectaria ao GPT-4 da OpenAI para fornecer respostas inteligentes e úteis.",
-        isUser: false,
-        timestamp: new Date()
-      };
-      
-      setConversations(prev => prev.map(conv => 
-        conv.id === currentConversationId 
-          ? { 
-              ...conv, 
-              messages: [...conv.messages, aiResponse],
-              lastUpdated: new Date()
-            }
-          : conv
-      ));
-      setIsTyping(false);
-    }, 1500 + Math.random() * 2000);
+    // Conectar ao WebSocket para obter resposta da IA
+    connectWebSocket(content);
   };
 
   const startNewChat = () => {
     const newConversation: Conversation = {
-      id: Date.now().toString(),
+      id: generateUUID(),
       title: 'Nova Conversa',
       lastUpdated: new Date(),
       messages: [{
@@ -137,7 +229,7 @@ const Index = () => {
       } else if (filtered.length === 0) {
         // Se não há mais conversas, criar uma nova
         const newConv: Conversation = {
-          id: Date.now().toString(),
+          id: generateUUID(),
           title: 'Nova Conversa',
           lastUpdated: new Date(),
           messages: [{
@@ -153,6 +245,15 @@ const Index = () => {
       return filtered;
     });
   };
+
+  // Limpeza do WebSocket ao desmontar componente
+  useEffect(() => {
+    return () => {
+      if (websocketRef.current) {
+        websocketRef.current.close();
+      }
+    };
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -198,7 +299,7 @@ const Index = () => {
             </Button>
             <div>
               <h1 className="text-lg font-semibold text-gray-900">Danzin IA</h1>
-              <p className="text-sm text-gray-500">Assistente inteligente alimentado por GPT-4</p>
+              <p className="text-sm text-gray-500">Vamos ter uma conversa dançante!</p>
             </div>
           </div>
         </div>
@@ -223,7 +324,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto w-full">
           <MessageInput
             onSendMessage={handleSendMessage}
-            disabled={isTyping}
+            disabled={isTyping || isReceiving}
           />
         </div>
       </div>
