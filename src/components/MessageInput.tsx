@@ -27,18 +27,17 @@ const MessageInput = ({ onSendMessage, disabled = false }: MessageInputProps) =>
   };
 
   return (
-    <div className="border-t bg-white p-4">
+    <div className="border-t bg-black p-4">
       <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
         <div className="flex items-end space-x-3">
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="text-gray-500 hover:text-gray-700 p-2"
+            className="text-red-400 hover:text-red-600 p-2"
           >
             <Paperclip size={18} />
           </Button>
-          
           <div className="flex-1 relative">
             <Textarea
               value={message}
@@ -46,21 +45,19 @@ const MessageInput = ({ onSendMessage, disabled = false }: MessageInputProps) =>
               onKeyDown={handleKeyDown}
               placeholder="Digite sua mensagem aqui..."
               disabled={disabled}
-              className="min-h-[44px] max-h-32 resize-none border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl pr-12"
+              className="min-h-[44px] max-h-32 resize-none border border-red-700 focus:border-red-500 focus:ring-red-500 rounded-xl pr-12 bg-black text-red-100 placeholder:text-red-400"
               rows={1}
             />
           </div>
-          
           <Button
             type="submit"
             disabled={!message.trim() || disabled}
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl px-4 py-2 transition-colors"
+            className="bg-red-700 hover:bg-red-800 text-white rounded-xl px-4 py-2 transition-colors"
           >
             <Send size={18} />
           </Button>
         </div>
-        
-        <div className="text-xs text-gray-500 text-center">
+        <div className="text-xs text-red-400 text-center">
           Pressione Enter para enviar, Shift + Enter para nova linha
         </div>
       </form>

@@ -63,16 +63,16 @@ const ConversationHistory = ({
   return (
     <div className="flex-1 overflow-y-auto p-4">
       <div className="space-y-2">
-        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-3">
+        <div className="text-xs text-red-400 uppercase tracking-wider font-medium mb-3">
           Conversas Recentes
         </div>
         {sortedConversations.map((conversation) => (
-          <div 
+          <div
             key={conversation.id}
             className={`group relative p-3 rounded-lg cursor-pointer transition-colors ${
-              conversation.id === currentConversationId 
-                ? 'bg-gray-800' 
-                : 'hover:bg-gray-800'
+              conversation.id === currentConversationId
+                ? 'bg-red-700 text-white'
+                : 'hover:bg-red-900 text-red-200'
             }`}
             onClick={() => onSwitchConversation(conversation.id)}
           >
@@ -81,7 +81,7 @@ const ConversationHistory = ({
                 <div className="text-sm font-medium truncate">
                   {generateTitle(conversation.messages)}
                 </div>
-                <div className="text-xs text-gray-400 mt-1">
+                <div className="text-xs text-red-300 mt-1">
                   {formatTimeAgo(conversation.lastUpdated)}
                 </div>
               </div>
@@ -89,7 +89,7 @@ const ConversationHistory = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-auto w-auto ml-2 text-gray-400 hover:text-red-400"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-auto w-auto ml-2 text-red-400 hover:text-red-600"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDeleteConversation(conversation.id);

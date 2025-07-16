@@ -5,6 +5,8 @@ import TypingIndicator from '@/components/TypingIndicator';
 import ConversationHistory from '@/components/ConversationHistory';
 import { Button } from '@/components/ui/button';
 import { Bot, Plus, Menu } from 'lucide-react';
+import { useTheme } from '@/App';
+import { Sun, Moon } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -42,7 +44,7 @@ const Index = () => {
       messages: [
         {
           id: '1',
-          content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+          content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
           isUser: false,
           timestamp: new Date(Date.now() - 120000)
         }
@@ -60,7 +62,7 @@ const Index = () => {
   const currentConversation = conversations.find(conv => conv.id === currentConversationId);
   const currentMessages = currentConversation?.messages || [];
 
-  const systemPrompt = "Você é uma inteligência artificial criada para ter uma postura brincalhona e curiosa, sempre pronta para aprender e se envolver com o usuário em uma dança de conversa.";
+  const systemPrompt = "Você é uma inteligência artificial chamada Danzin, criada para ter uma postura brincalhona e curiosa, sempre pronta para aprender e se envolver com o usuário em uma dança de conversa. Sempre se apresente como Danzin.";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -207,7 +209,7 @@ const Index = () => {
       lastUpdated: new Date(),
       messages: [{
         id: Date.now().toString(),
-        content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+        content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
         isUser: false,
         timestamp: new Date()
       }]
@@ -234,7 +236,7 @@ const Index = () => {
           lastUpdated: new Date(),
           messages: [{
             id: Date.now().toString(),
-            content: "Olá! Sou o Danzin IA, seu assistente inteligente. Como posso ajudá-lo hoje?",
+            content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
             isUser: false,
             timestamp: new Date()
           }]
@@ -256,54 +258,51 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Barra lateral */}
-      <div className="w-64 bg-gray-900 text-white flex flex-col">
-        <div className="p-4 border-b border-gray-700">
+    <div className="flex h-screen bg-neutral-950 dark:bg-black">
+      {/* Barra lateral tradicional */}
+      <div className="w-64 bg-black text-white flex flex-col">
+        <div className="p-4 border-b border-red-700">
           <Button
             onClick={startNewChat}
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white border border-gray-600 rounded-lg"
+            className="w-full bg-red-700 hover:bg-red-800 text-white border border-red-800 rounded-lg"
           >
             <Plus size={16} className="mr-2" />
             Nova Conversa
           </Button>
         </div>
-        
-        <ConversationHistory 
+        <ConversationHistory
           conversations={conversations}
           currentConversationId={currentConversationId}
           onSwitchConversation={switchConversation}
           onDeleteConversation={deleteConversation}
         />
-        
-        <div className="p-4 border-t border-gray-700">
+        <div className="p-4 border-t border-red-700">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center">
               <Bot size={16} />
             </div>
             <div>
-              <div className="text-sm font-medium">Danzin IA</div>
-              <div className="text-xs text-gray-400">Online</div>
+              <div className="text-sm font-medium">Danzin</div>
+              <div className="text-xs text-red-300">Online</div>
             </div>
           </div>
         </div>
       </div>
-
       {/* Área principal do chat */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-neutral-950 dark:bg-black">
         {/* Cabeçalho */}
-        <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+        <div className="bg-black border-b border-red-800 p-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="sm" className="md:hidden">
-              <Menu size={20} />
-            </Button>
+            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center">
+              <Bot size={16} />
+            </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">Danzin IA</h1>
-              <p className="text-sm text-gray-500">Vamos ter uma conversa dançante!</p>
+              <h1 className="text-lg font-semibold text-white">Danzin</h1>
+              <p className="text-sm text-red-300">Vamos ter uma conversa dançante!</p>
             </div>
           </div>
+          <ThemeToggleButton />
         </div>
-
         {/* Mensagens */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
@@ -319,7 +318,6 @@ const Index = () => {
             <div ref={messagesEndRef} />
           </div>
         </div>
-
         {/* Entrada de texto */}
         <div className="max-w-4xl mx-auto w-full">
           <MessageInput
@@ -333,3 +331,18 @@ const Index = () => {
 };
 
 export default Index;
+
+const ThemeToggleButton = () => {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Alternar tema"
+      onClick={toggleTheme}
+      className="ml-2"
+    >
+      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+    </Button>
+  );
+};
