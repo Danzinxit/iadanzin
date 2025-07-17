@@ -3,10 +3,13 @@ import ChatMessage from '@/components/ChatMessage';
 import MessageInput from '@/components/MessageInput';
 import TypingIndicator from '@/components/TypingIndicator';
 import ConversationHistory from '@/components/ConversationHistory';
+import ParticleBackground from '@/components/ParticleBackground';
+import Confetti from '@/components/Confetti';
 import { Button } from '@/components/ui/button';
-import { Bot, Plus, Menu } from 'lucide-react';
+import { Bot, Plus, Menu, X } from 'lucide-react';
 import { useTheme } from '@/App';
 import { Sun, Moon } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Message {
   id: string;
@@ -55,9 +58,19 @@ const Index = () => {
   const [currentConversationId, setCurrentConversationId] = useState<string>('1');
   const [isTyping, setIsTyping] = useState(false);
   const [isReceiving, setIsReceiving] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const websocketRef = useRef<WebSocket | null>(null);
   const currentMessageRef = useRef<string>('');
+  const isMobile = useIsMobile();
+
+  // Fechar menu lateral quando mudar para desktop
+  useEffect(() => {
+    if (!isMobile) {
+      setIsSidebarOpen(false);
+    }
+  }, [isMobile]);
 
   const currentConversation = conversations.find(conv => conv.id === currentConversationId);
   const currentMessages = currentConversation?.messages || [];
@@ -217,6 +230,9 @@ const Index = () => {
     
     setConversations(prev => [newConversation, ...prev]);
     setCurrentConversationId(newConversation.id);
+    
+    // Ativar confete
+    setShowConfetti(true);
   };
 
   const switchConversation = (conversationId: string) => {
@@ -258,13 +274,44 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-neutral-950 dark:bg-black">
-      {/* Barra lateral tradicional */}
-      <div className="w-64 bg-black text-white flex flex-col">
-        <div className="p-4 border-b border-red-700">
+    <div className="flex h-screen bg-neutral-950 dark:bg-black relative">
+      {/* Fundo animado */}
+      <ParticleBackground />
+      
+      {/* Confete */}
+      <Confetti 
+        isActive={showConfetti} 
+        onComplete={() => setShowConfetti(false)} 
+      />
+      
+      {/* Overlay para fechar o menu em dispositivos móveis */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden animate-fade-in-up"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      
+      {/* Barra lateral responsiva */}
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-black text-white flex flex-col transform transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        <div className="p-4 border-b border-red-700 animate-fade-in-down">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white animate-fade-in-left">Danzin Chat</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-white hover:bg-red-800 hover-scale animate-scale-in"
+              onClick={() => setIsSidebarOpen(false)}
+            >
+              <X size={20} />
+            </Button>
+          </div>
           <Button
             onClick={startNewChat}
-            className="w-full bg-red-700 hover:bg-red-800 text-white border border-red-800 rounded-lg"
+            className="w-full bg-red-700 hover:bg-red-800 text-white border border-red-800 rounded-lg transition-all duration-300 hover-scale hover-glow animate-bounce-in"
           >
             <Plus size={16} className="mr-2" />
             Nova Conversa
@@ -273,30 +320,42 @@ const Index = () => {
         <ConversationHistory
           conversations={conversations}
           currentConversationId={currentConversationId}
-          onSwitchConversation={switchConversation}
+          onSwitchConversation={(id) => {
+            switchConversation(id);
+            setIsSidebarOpen(false); // Fechar menu após selecionar conversa em mobile
+          }}
           onDeleteConversation={deleteConversation}
         />
-        <div className="p-4 border-t border-red-700">
+        <div className="p-4 border-t border-red-700 animate-fade-in-up">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center animate-float">
               <Bot size={16} />
             </div>
-            <div>
+            <div className="animate-fade-in-right">
               <div className="text-sm font-medium">Danzin</div>
               <div className="text-xs text-red-300">Online</div>
             </div>
           </div>
         </div>
       </div>
+      
       {/* Área principal do chat */}
-      <div className="flex-1 flex flex-col bg-neutral-950 dark:bg-black">
+      <div className="flex-1 flex flex-col bg-neutral-950 dark:bg-black relative z-10">
         {/* Cabeçalho */}
-        <div className="bg-black border-b border-red-800 p-4 flex items-center justify-between">
+        <div className="bg-black border-b border-red-800 p-4 flex items-center justify-between animate-fade-in-down">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-white hover:bg-red-800 mr-2 hover-scale animate-scale-in"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <Menu size={20} />
+            </Button>
+            <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center animate-float">
               <Bot size={16} />
             </div>
-            <div>
+            <div className="animate-fade-in-left">
               <h1 className="text-lg font-semibold text-white">Danzin</h1>
               <p className="text-sm text-red-300">Vamos ter uma conversa dançante!</p>
             </div>
@@ -340,9 +399,9 @@ const ThemeToggleButton = () => {
       size="icon"
       aria-label="Alternar tema"
       onClick={toggleTheme}
-      className="ml-2"
+      className="ml-2 transition-all duration-300 hover-scale hover-glow animate-bounce-in"
     >
-      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      {theme === 'dark' ? <Sun size={20} className="animate-rotate" /> : <Moon size={20} className="animate-float" />}
     </Button>
   );
 };

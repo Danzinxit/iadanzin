@@ -61,27 +61,27 @@ const ConversationHistory = ({
   );
 
   return (
-    <div className="flex-1 overflow-y-auto p-4">
-      <div className="space-y-2">
-        <div className="text-xs text-red-400 uppercase tracking-wider font-medium mb-3">
+    <div className="flex-1 overflow-y-auto p-2 sm:p-4 animate-fade-in-left">
+      <div className="space-y-1 sm:space-y-2">
+        <div className="text-xs text-red-400 uppercase tracking-wider font-medium mb-2 sm:mb-3 px-2 animate-fade-in-down">
           Conversas Recentes
         </div>
-        {sortedConversations.map((conversation) => (
+        {sortedConversations.map((conversation, index) => (
           <div
             key={conversation.id}
-            className={`group relative p-3 rounded-lg cursor-pointer transition-colors ${
+            className={`group relative p-2 sm:p-3 rounded-lg cursor-pointer transition-all duration-300 hover-lift animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${
               conversation.id === currentConversationId
-                ? 'bg-red-700 text-white'
-                : 'hover:bg-red-900 text-red-200'
+                ? 'bg-red-700 text-white animate-glow'
+                : 'hover:bg-red-900 text-red-200 hover-glow'
             }`}
             onClick={() => onSwitchConversation(conversation.id)}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium truncate">
+                <div className="text-xs sm:text-sm font-medium truncate animate-fade-in-right">
                   {generateTitle(conversation.messages)}
                 </div>
-                <div className="text-xs text-red-300 mt-1">
+                <div className="text-xs text-red-300 mt-1 animate-fade-in-down">
                   {formatTimeAgo(conversation.lastUpdated)}
                 </div>
               </div>
@@ -89,13 +89,13 @@ const ConversationHistory = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-auto w-auto ml-2 text-red-400 hover:text-red-600"
+                  className="opacity-0 group-hover:opacity-100 transition-all duration-300 p-1 h-auto w-auto ml-1 sm:ml-2 text-red-400 hover:text-red-600 hover-scale animate-scale-in"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDeleteConversation(conversation.id);
                   }}
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={12} className="sm:w-3.5 sm:h-3.5" />
                 </Button>
               )}
             </div>
