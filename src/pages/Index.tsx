@@ -5,6 +5,7 @@ import TypingIndicator from '@/components/TypingIndicator';
 import ConversationHistory from '@/components/ConversationHistory';
 import ParticleBackground from '@/components/ParticleBackground';
 import Confetti from '@/components/Confetti';
+import ImageInstructions from '@/components/ImageInstructions';
 import { Button } from '@/components/ui/button';
 import { Bot, Plus, Menu, X } from 'lucide-react';
 import { useTheme } from '@/App';
@@ -16,6 +17,7 @@ interface Message {
   content: string;
   isUser: boolean;
   timestamp: Date;
+  imageUrl?: string | null;
 }
 
 interface Conversation {
@@ -58,6 +60,7 @@ const Index = () => {
   const [currentConversationId, setCurrentConversationId] = useState<string>('1');
   const [isTyping, setIsTyping] = useState(false);
   const [isReceiving, setIsReceiving] = useState(false);
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -85,7 +88,7 @@ const Index = () => {
     scrollToBottom();
   }, [currentMessages, isTyping]);
 
-  const connectWebSocket = (message: string) => {
+  const connectWebSocket = (message: string, imageFile?: File | null) => {
     setIsReceiving(true);
     setIsTyping(true);
     
@@ -113,14 +116,28 @@ const Index = () => {
     ));
 
     websocket.addEventListener("open", () => {
-      websocket.send(
-        JSON.stringify({
-          chatId: currentConversationId,
-          appId: "three-box",
-          systemPrompt: systemPrompt,
-          message: message,
-        })
-      );
+      // Preparar dados para envio
+      const messageData: any = {
+        chatId: currentConversationId,
+        appId: "three-box",
+        systemPrompt: systemPrompt,
+        message: message,
+      };
+
+      // Se há imagem, converter para base64 e adicionar
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64Image = reader.result as string;
+          messageData.image = base64Image.split(',')[1]; // Remove o prefixo data:image/...
+          messageData.imageType = imageFile.type;
+          
+          websocket.send(JSON.stringify(messageData));
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        websocket.send(JSON.stringify(messageData));
+      }
     });
 
     websocket.onmessage = (event) => {
@@ -148,6 +165,7 @@ const Index = () => {
       if (event.code === 1000) {
         setIsReceiving(false);
         setIsTyping(false);
+        setIsProcessingImage(false);
         currentMessageRef.current = '';
       } else {
         // Em caso de erro, adicionar mensagem de erro
@@ -166,6 +184,7 @@ const Index = () => {
         ));
         setIsReceiving(false);
         setIsTyping(false);
+        setIsProcessingImage(false);
         currentMessageRef.current = '';
       }
     };
@@ -186,18 +205,28 @@ const Index = () => {
       ));
       setIsReceiving(false);
       setIsTyping(false);
+      setIsProcessingImage(false);
       currentMessageRef.current = '';
     };
   };
 
-  const handleSendMessage = async (content: string) => {
+  const handleSendMessage = async (content: string, imageFile?: File | null) => {
     if (isReceiving) return;
+
+    let imageUrl: string | null = null;
+    
+    // Se há imagem, criar URL para exibição
+    if (imageFile) {
+      imageUrl = URL.createObjectURL(imageFile);
+      setIsProcessingImage(true);
+    }
 
     const userMessage: Message = {
       id: generateUUID(),
       content,
       isUser: true,
-      timestamp: new Date()
+      timestamp: new Date(),
+      imageUrl
     };
 
     // Atualizar a conversa atual com a nova mensagem
@@ -212,7 +241,14 @@ const Index = () => {
     ));
 
     // Conectar ao WebSocket para obter resposta da IA
-    connectWebSocket(content);
+    connectWebSocket(content, imageFile);
+    
+    // Limpar URL da imagem após um tempo
+    if (imageUrl) {
+      setTimeout(() => {
+        URL.revokeObjectURL(imageUrl);
+      }, 10000);
+    }
   };
 
   const startNewChat = () => {
@@ -365,12 +401,16 @@ const Index = () => {
         {/* Mensagens */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
+            {currentMessages.length === 1 && (
+              <ImageInstructions />
+            )}
             {currentMessages.map((message) => (
               <ChatMessage
                 key={message.id}
                 message={message.content}
                 isUser={message.isUser}
                 timestamp={message.timestamp}
+                imageUrl={message.imageUrl}
               />
             ))}
             {isTyping && <TypingIndicator />}
@@ -382,6 +422,7 @@ const Index = () => {
           <MessageInput
             onSendMessage={handleSendMessage}
             disabled={isTyping || isReceiving}
+            isProcessingImage={isProcessingImage}
           />
         </div>
       </div>

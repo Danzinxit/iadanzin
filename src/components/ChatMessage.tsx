@@ -15,9 +15,10 @@ interface ChatMessageProps {
   message: string;
   isUser: boolean;
   timestamp: Date;
+  imageUrl?: string | null;
 }
 
-const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) => {
+const ChatMessage = ({ message, isUser, timestamp, imageUrl }: ChatMessageProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -103,7 +104,16 @@ const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) => {
               : "bg-neutral-900 text-red-100 rounded-bl-md hover-glow"
           )}
         >
-          {renderMessage()}
+          {imageUrl && (
+            <div className="mb-3 animate-scale-in">
+              <img
+                src={imageUrl}
+                alt="Imagem enviada"
+                className="rounded-lg max-w-full max-h-64 object-contain border border-red-700/50 hover-lift"
+              />
+            </div>
+          )}
+          {message && renderMessage()}
         </div>
         <span className="text-xs text-red-300 px-2 animate-fade-in-down">
           {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
