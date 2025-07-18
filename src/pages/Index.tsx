@@ -8,7 +8,7 @@ import Confetti from '@/components/Confetti';
 import ImageInstructions from '@/components/ImageInstructions';
 import BetaPopup from '@/components/BetaPopup';
 import { Button } from '@/components/ui/button';
-import { Bot, Plus, Menu, X } from 'lucide-react';
+import { Bot, Menu, X } from 'lucide-react';
 import { useTheme } from '@/App';
 import { Sun, Moon } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -349,13 +349,6 @@ const Index = () => {
               <X size={20} />
             </Button>
           </div>
-          <Button
-            onClick={startNewChat}
-            className="w-full bg-red-700 hover:bg-red-800 text-white border border-red-800 rounded-lg transition-all duration-300 hover-scale hover-glow animate-bounce-in"
-          >
-            <Plus size={16} className="mr-2" />
-            Nova Conversa
-          </Button>
         </div>
         <ConversationHistory
           conversations={conversations}
@@ -365,6 +358,7 @@ const Index = () => {
             setIsSidebarOpen(false); // Fechar menu após selecionar conversa em mobile
           }}
           onDeleteConversation={deleteConversation}
+          onNewChat={startNewChat}
         />
         <div className="p-4 border-t border-red-700 animate-fade-in-up">
           <div className="flex items-center space-x-3">

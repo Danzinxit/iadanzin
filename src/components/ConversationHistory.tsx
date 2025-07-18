@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Search, Image, Play, Grid3X3 } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -22,13 +22,15 @@ interface ConversationHistoryProps {
   currentConversationId: string;
   onSwitchConversation: (id: string) => void;
   onDeleteConversation: (id: string) => void;
+  onNewChat: () => void;
 }
 
 const ConversationHistory = ({ 
   conversations, 
   currentConversationId, 
   onSwitchConversation,
-  onDeleteConversation 
+  onDeleteConversation,
+  onNewChat
 }: ConversationHistoryProps) => {
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
@@ -63,9 +65,66 @@ const ConversationHistory = ({
   return (
     <div className="flex-1 overflow-y-auto p-2 sm:p-4 animate-fade-in-left">
       <div className="space-y-1 sm:space-y-2">
-        <div className="text-xs text-red-400 uppercase tracking-wider font-medium mb-2 sm:mb-3 px-2 animate-fade-in-down">
-          Conversas Recentes
+        {/* Menu Superior */}
+        <div className="mb-4 space-y-1">
+          <Button
+            onClick={onNewChat}
+            variant="ghost"
+            className="w-full justify-start text-red-200 hover:bg-red-900 hover:text-white transition-all duration-300 hover-lift"
+          >
+            <div className="w-4 h-4 mr-3 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10,9 9,9 8,9"/>
+              </svg>
+            </div>
+            Novo chat
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-200 hover:bg-red-900 hover:text-white transition-all duration-300 hover-lift"
+          >
+            <Search size={16} className="mr-3" />
+            Buscar em chats
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-200 hover:bg-red-900 hover:text-white transition-all duration-300 hover-lift"
+          >
+            <Image size={16} className="mr-3" />
+            Galeria
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-200 hover:bg-red-900 hover:text-white transition-all duration-300 hover-lift"
+          >
+            <Play size={16} className="mr-3" />
+            Sora
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-200 hover:bg-red-900 hover:text-white transition-all duration-300 hover-lift"
+          >
+            <Grid3X3 size={16} className="mr-3" />
+            GPTs
+          </Button>
         </div>
+
+        {/* Separador */}
+        <div className="border-t border-red-700/50 my-4"></div>
+
+        {/* Seção de Chats */}
+        <div className="text-xs text-red-400 uppercase tracking-wider font-medium mb-2 sm:mb-3 px-2 animate-fade-in-down">
+          Chats
+        </div>
+        
         {sortedConversations.map((conversation, index) => (
           <div
             key={conversation.id}

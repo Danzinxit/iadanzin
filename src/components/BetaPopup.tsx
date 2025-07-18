@@ -6,23 +6,16 @@ const BetaPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Verificar se o usuário já viu o popup
-    const hasSeenPopup = localStorage.getItem('chatcraft-pro-beta-popup-seen');
-    
-    if (!hasSeenPopup) {
-      // Mostrar popup após 1 segundo do carregamento
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 1000);
+    // Mostrar popup após 1 segundo do carregamento (sempre)
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000);
 
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    // Marcar que o usuário já viu o popup
-    localStorage.setItem('chatcraft-pro-beta-popup-seen', 'true');
   };
 
   if (!isVisible) return null;
