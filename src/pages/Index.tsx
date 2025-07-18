@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ChatMessage from '@/components/ChatMessage';
-import MessageInput from '@/components/MessageInput';
-import TypingIndicator from '@/components/TypingIndicator';
-import ConversationHistory from '@/components/ConversationHistory';
-import ParticleBackground from '@/components/ParticleBackground';
-import Confetti from '@/components/Confetti';
-import ImageInstructions from '@/components/ImageInstructions';
-import BetaPopup from '@/components/BetaPopup';
-import { Button } from '@/components/ui/button';
+import ChatMessage from '../components/ChatMessage';
+import MessageInput from '../components/MessageInput';
+import TypingIndicator from '../components/TypingIndicator';
+import ConversationHistory from '../components/ConversationHistory';
+import ParticleBackground from '../components/ParticleBackground';
+import Confetti from '../components/Confetti';
+import ImageInstructions from '../components/ImageInstructions';
+import BetaPopup from '../components/BetaPopup';
+import { Button } from '../components/ui/button';
 import { Bot, Menu, X } from 'lucide-react';
-import { useTheme } from '@/App';
+import { useTheme } from '../App';
 import { Sun, Moon } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '../hooks/use-mobile';
 
 interface Message {
   id: string;

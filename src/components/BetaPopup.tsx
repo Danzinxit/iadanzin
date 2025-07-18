@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from './ui/button';
 import { X, Info, Rocket, Sparkles } from 'lucide-react';
 
 const BetaPopup = () => {
