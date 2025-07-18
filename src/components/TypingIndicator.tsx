@@ -18,7 +18,7 @@ const TypingIndicator = () => {
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-300 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
           </div>
-          <span className="text-xs sm:text-sm text-red-300 ml-2 animate-fade-in-right">Danzin está pensando...</span>
+          <span className="text-xs sm:text-sm text-red-300 ml-2 animate-fade-in-right">ChatCraft Pro está pensando...</span>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import ConversationHistory from '@/components/ConversationHistory';
 import ParticleBackground from '@/components/ParticleBackground';
 import Confetti from '@/components/Confetti';
 import ImageInstructions from '@/components/ImageInstructions';
+import BetaPopup from '@/components/BetaPopup';
 import { Button } from '@/components/ui/button';
 import { Bot, Plus, Menu, X } from 'lucide-react';
 import { useTheme } from '@/App';
@@ -44,12 +45,12 @@ const Index = () => {
   const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: '1',
-      title: 'Chat com DANZIN IA',
+      title: 'Chat com ChatCraft Pro',
       lastUpdated: new Date(Date.now() - 120000),
       messages: [
         {
           id: '1',
-          content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
+          content: "Olá! Eu sou o ChatCraft Pro, seu assistente inteligente. Como posso ajudá-lo hoje?",
           isUser: false,
           timestamp: new Date(Date.now() - 120000)
         }
@@ -78,7 +79,7 @@ const Index = () => {
   const currentConversation = conversations.find(conv => conv.id === currentConversationId);
   const currentMessages = currentConversation?.messages || [];
 
-  const systemPrompt = "Você é uma inteligência artificial chamada Danzin, criada para ter uma postura brincalhona e curiosa, sempre pronta para aprender e se envolver com o usuário em uma dança de conversa. Sempre se apresente como Danzin.";
+  const systemPrompt = "Você é uma inteligência artificial chamada ChatCraft Pro, criada para ter uma postura brincalhona e curiosa, sempre pronta para aprender e se envolver com o usuário em uma dança de conversa. Sempre se apresente como ChatCraft Pro.";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -258,7 +259,7 @@ const Index = () => {
       lastUpdated: new Date(),
       messages: [{
         id: Date.now().toString(),
-        content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
+        content: "Olá! Eu sou o ChatCraft Pro, seu assistente inteligente. Como posso ajudá-lo hoje?",
         isUser: false,
         timestamp: new Date()
       }]
@@ -288,7 +289,7 @@ const Index = () => {
           lastUpdated: new Date(),
           messages: [{
             id: Date.now().toString(),
-            content: "Olá! Eu sou o Danzin, seu assistente inteligente. Como posso ajudá-lo hoje?",
+            content: "Olá! Eu sou o ChatCraft Pro, seu assistente inteligente. Como posso ajudá-lo hoje?",
             isUser: false,
             timestamp: new Date()
           }]
@@ -320,6 +321,9 @@ const Index = () => {
         onComplete={() => setShowConfetti(false)} 
       />
       
+      {/* Popup Beta */}
+      <BetaPopup />
+      
       {/* Overlay para fechar o menu em dispositivos móveis */}
       {isSidebarOpen && (
         <div 
@@ -335,7 +339,7 @@ const Index = () => {
       `}>
         <div className="p-4 border-b border-red-700 animate-fade-in-down">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white animate-fade-in-left">Danzin Chat</h2>
+            <h2 className="text-lg font-semibold text-white animate-fade-in-left">ChatCraft Pro</h2>
             <Button
               variant="ghost"
               size="icon"
@@ -368,7 +372,7 @@ const Index = () => {
               <Bot size={16} />
             </div>
             <div className="animate-fade-in-right">
-              <div className="text-sm font-medium">Danzin</div>
+              <div className="text-sm font-medium">ChatCraft Pro</div>
               <div className="text-xs text-red-300">Online</div>
             </div>
           </div>
@@ -392,7 +396,7 @@ const Index = () => {
               <Bot size={16} />
             </div>
             <div className="animate-fade-in-left">
-              <h1 className="text-lg font-semibold text-white">Danzin</h1>
+              <h1 className="text-lg font-semibold text-white">ChatCraft Pro</h1>
               <p className="text-sm text-red-300">Vamos ter uma conversa dançante!</p>
             </div>
           </div>

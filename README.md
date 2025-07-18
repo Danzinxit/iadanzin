@@ -1,73 +1,63 @@
-# Bem-vindo ao seu projeto DANZIN IA
+# Bem-vindo ao seu projeto ChatCraft Pro
 
-## Informações do projeto
+Este é um projeto de chat inteligente desenvolvido com React, TypeScript e Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/3caa064e-ad79-4c7f-9316-b87257ff4daf
+## Funcionalidades
 
-## Como posso editar este código?
+- 💬 Chat em tempo real com IA
+- 🎨 Interface moderna e responsiva
+- 🌙 Modo escuro/claro
+- 📱 Design mobile-first
+- 🎭 Animações suaves
+- 📸 Suporte a upload de imagens
+- 🔄 Histórico de conversas
+- ⚡ Performance otimizada
 
-Existem várias maneiras de editar sua aplicação.
+## Tecnologias Utilizadas
 
-**Use o Lovable**
+- **React 18** - Biblioteca de interface
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Framework de estilos
+- **Vite** - Build tool
+- **Radix UI** - Componentes acessíveis
+- **Lucide React** - Ícones
+- **Highlight.js** - Syntax highlighting
 
-Simplesmente visite o [Projeto Lovable](https://lovable.dev/projects/3caa064e-ad79-4c7f-9316-b87257ff4daf) e comece a fazer prompts.
+## Como Executar
 
-As alterações feitas via Lovable serão automaticamente commitadas neste repositório.
+1. Clone o repositório
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Execute o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+4. Abra [http://localhost:5173](http://localhost:5173) no navegador
 
-**Use seu IDE preferido**
+## Scripts Disponíveis
 
-Se você quiser trabalhar localmente usando seu próprio IDE, você pode clonar este repositório e enviar alterações. As alterações enviadas também serão refletidas no Lovable.
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run preview` - Visualiza o build de produção
+- `npm run lint` - Executa o linter
 
-O único requisito é ter Node.js e npm instalados - [instale com nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Estrutura do Projeto
 
-Siga estes passos:
-
-```sh
-# Passo 1: Clone o repositório usando a URL Git do projeto.
-git clone <YOUR_GIT_URL>
-
-# Passo 2: Navegue até o diretório do projeto.
-cd <YOUR_PROJECT_NAME>
-
-# Passo 3: Instale as dependências necessárias.
-npm i
-
-# Passo 4: Inicie o servidor de desenvolvimento com recarregamento automático e preview instantâneo.
-npm run dev
+```
+src/
+├── components/     # Componentes reutilizáveis
+├── pages/         # Páginas da aplicação
+├── hooks/         # Custom hooks
+├── lib/           # Utilitários e configurações
+└── index.css      # Estilos globais
 ```
 
-**Edite um arquivo diretamente no GitHub**
+## Contribuição
 
-- Navegue até o(s) arquivo(s) desejado(s).
-- Clique no botão "Edit" (ícone de lápis) no canto superior direito da visualização do arquivo.
-- Faça suas alterações e faça commit das mudanças.
+Sinta-se à vontade para contribuir com o projeto! Abra uma issue ou envie um pull request.
 
-**Use GitHub Codespaces**
+## Licença
 
-- Navegue até a página principal do seu repositório.
-- Clique no botão "Code" (botão verde) próximo ao canto superior direito.
-- Selecione a aba "Codespaces".
-- Clique em "New codespace" para iniciar um novo ambiente Codespace.
-- Edite arquivos diretamente dentro do Codespace e faça commit e push das suas alterações quando terminar.
-
-## Quais tecnologias são usadas neste projeto?
-
-Este projeto é construído com:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## Como posso fazer deploy deste projeto?
-
-Simplesmente abra o [Lovable](https://lovable.dev/projects/3caa064e-ad79-4c7f-9316-b87257ff4daf) e clique em Share -> Publish.
-
-## Posso conectar um domínio personalizado ao meu projeto Lovable?
-
-Sim, você pode!
-
-Para conectar um domínio, navegue até Project > Settings > Domains e clique em Connect Domain.
-
-Leia mais aqui: [Configurando um domínio personalizado](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Este projeto está sob a licença MIT.
