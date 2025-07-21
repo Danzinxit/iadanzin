@@ -1,0 +1,271 @@
+# AULA 5: INTEGRAÇÃO COM APIs E FUNCIONALIDADES AVANÇADAS
+
+## O que são APIs?
+
+API (Application Programming Interface) é como um "menu" que permite que diferentes programas se comuniquem entre si. É como um garçom que leva pedidos entre a cozinha (serviço) e você (aplicação).
+
+### Por que usar APIs no seu Chatbot?
+✅ **Funcionalidades extras**: Buscar informações em tempo real
+✅ **Automação**: Conectar com outros serviços
+✅ **Dados atualizados**: Informações sempre frescas
+✅ **Integração**: Trabalhar com ferramentas existentes
+✅ **Escalabilidade**: Crescer sem recomeçar do zero
+
+## APIs Gratuitas para Começar:
+
+### 1. **APIs de Clima**
+**Exemplo**: OpenWeatherMap
+- **Gratuito**: Sim (até 1000 chamadas/dia)
+- **Uso**: Previsão do tempo
+- **Exemplo**: "Como está o clima em São Paulo?"
+
+### 2. **APIs de Notícias**
+**Exemplo**: NewsAPI
+- **Gratuito**: Sim (até 1000 chamadas/dia)
+- **Uso**: Últimas notícias
+- **Exemplo**: "Quais são as notícias de tecnologia hoje?"
+
+### 3. **APIs de Tradução**
+**Exemplo**: Google Translate
+- **Gratuito**: Sim (com limitações)
+- **Uso**: Traduzir textos
+- **Exemplo**: "Traduza 'hello world' para português"
+
+### 4. **APIs de Cotações**
+**Exemplo**: Alpha Vantage
+- **Gratuito**: Sim (até 500 chamadas/dia)
+- **Uso**: Preços de ações, criptomoedas
+- **Exemplo**: "Qual o preço do Bitcoin hoje?"
+
+## Como Funciona a Integração:
+
+### Processo Básico:
+```
+1. Usuário faz pergunta
+2. Chatbot identifica necessidade de API
+3. Chatbot faz requisição para API
+4. API retorna dados
+5. Chatbot formata resposta
+6. Usuário recebe resposta
+```
+
+### Exemplo Prático:
+**Usuário**: "Qual o clima em Rio de Janeiro?"
+**Chatbot**: "Deixe-me verificar isso para você..."
+**API**: Retorna dados do clima
+**Chatbot**: "Em Rio de Janeiro está 25°C, ensolarado com 60% de umidade."
+
+## Ferramentas No-Code para APIs:
+
+### 1. **Zapier**
+- **Site**: zapier.com
+- **Gratuito**: Sim (até 100 tarefas/mês)
+- **Uso**: Conectar diferentes aplicações
+- **Exemplo**: Quando alguém envia mensagem no chatbot, salva no Google Sheets
+
+### 2. **Make (Integromat)**
+- **Site**: make.com
+- **Gratuito**: Sim (até 1000 operações/mês)
+- **Uso**: Automação visual
+- **Destaque**: Interface drag-and-drop
+
+### 3. **IFTTT**
+- **Site**: ifttt.com
+- **Gratuito**: Sim
+- **Uso**: Automações simples
+- **Exemplo**: "Se receber mensagem no chatbot, envie email"
+
+### 4. **n8n**
+- **Site**: n8n.io
+- **Gratuito**: Sim (self-hosted)
+- **Uso**: Automação avançada
+- **Destaque**: Código aberto
+
+## Exemplos de Integrações Úteis:
+
+### 1. **Chatbot + Google Calendar**
+**Funcionalidade**: Agendar compromissos
+```
+Usuário: "Agende uma reunião amanhã às 14h"
+Chatbot: "Reunião agendada para amanhã às 14h no Google Calendar"
+```
+
+### 2. **Chatbot + Spotify**
+**Funcionalidade**: Controle de música
+```
+Usuário: "Toque 'Bohemian Rhapsody'"
+Chatbot: "Tocando 'Bohemian Rhapsody' no Spotify"
+```
+
+### 3. **Chatbot + Trello**
+**Funcionalidade**: Gerenciamento de tarefas
+```
+Usuário: "Crie uma tarefa 'Estudar IA'"
+Chatbot: "Tarefa 'Estudar IA' criada no Trello"
+```
+
+### 4. **Chatbot + WhatsApp**
+**Funcionalidade**: Envio de mensagens
+```
+Usuário: "Envie 'Oi' para João"
+Chatbot: "Mensagem enviada para João no WhatsApp"
+```
+
+## Exercício Prático: Planejando Integrações
+
+### Atividade: Mapa de Integrações
+
+**Para o seu chatbot, quais APIs você gostaria de integrar?**
+
+**API 1:**
+- **Nome**: ________________________________
+- **Função**: ________________________________
+- **Exemplo de uso**: ________________________________
+
+**API 2:**
+- **Nome**: ________________________________
+- **Função**: ________________________________
+- **Exemplo de uso**: ________________________________
+
+**API 3:**
+- **Nome**: ________________________________
+- **Função**: ________________________________
+- **Exemplo de uso**: ________________________________
+
+## Configuração de Webhooks:
+
+### O que é Webhook?
+Webhook é como um "telefone" que sua aplicação usa para receber notificações de outras aplicações.
+
+### Como funciona:
+```
+1. Você configura um webhook
+2. Outra aplicação "liga" para seu webhook
+3. Seu chatbot recebe a informação
+4. Chatbot processa e responde
+```
+
+### Exemplo Prático:
+**Cenário**: Quando alguém faz uma compra no seu site
+1. Site envia dados para webhook
+2. Chatbot recebe notificação
+3. Chatbot envia mensagem: "Obrigado pela compra! Seu pedido #123 foi confirmado."
+
+## Automações Avançadas:
+
+### 1. **Sequências de Email**
+- Envio automático de emails
+- Diferentes mensagens baseadas em ações
+- Follow-up automático
+
+### 2. **Notificações Push**
+- Alertas em tempo real
+- Lembretes personalizados
+- Atualizações importantes
+
+### 3. **Análise de Dados**
+- Coleta de feedback
+- Métricas de uso
+- Relatórios automáticos
+
+### 4. **Integração com CRM**
+- Salvar informações de contato
+- Histórico de conversas
+- Segmentação de usuários
+
+## Ferramentas de Integração Específicas:
+
+### 1. **Chatfuel + Integrations**
+- **Google Sheets**: Salvar dados
+- **Email**: Enviar notificações
+- **Facebook**: Postar automaticamente
+
+### 2. **ManyChat + Integrations**
+- **Shopify**: Vendas automáticas
+- **Mailchimp**: Lista de emails
+- **Zapier**: Conexões ilimitadas
+
+### 3. **Landbot + Integrations**
+- **Slack**: Notificações de equipe
+- **HubSpot**: CRM integrado
+- **Stripe**: Pagamentos
+
+## Exercício de Implementação:
+
+### Atividade: Fluxo de Automação
+
+**Crie um fluxo de automação para seu chatbot:**
+
+**Gatilho (quando acontece):** ________________________________
+
+**Ação 1:** ________________________________
+
+**Ação 2:** ________________________________
+
+**Ação 3:** ________________________________
+
+**Resultado final:** ________________________________
+
+## Dicas para Integração Eficaz:
+
+### ✅ **Faça:**
+- Teste todas as integrações
+- Tenha fallbacks (planos B)
+- Monitore o funcionamento
+- Documente as configurações
+- Mantenha backups
+
+### ❌ **Evite:**
+- Depender de uma única API
+- Ignorar limites de uso
+- Não testar cenários de erro
+- Integrações desnecessárias
+- Falta de segurança
+
+## Segurança em Integrações:
+
+### 1. **Chaves de API**
+- Mantenha seguras
+- Não compartilhe publicamente
+- Use variáveis de ambiente
+
+### 2. **Validação de Dados**
+- Sempre valide entradas
+- Sanitize dados
+- Teste casos extremos
+
+### 3. **Rate Limiting**
+- Respeite limites de uso
+- Implemente delays
+- Monitore consumo
+
+## Métricas de Integração:
+
+### 1. **Performance**
+- Tempo de resposta
+- Taxa de sucesso
+- Disponibilidade
+
+### 2. **Uso**
+- Frequência de chamadas
+- APIs mais usadas
+- Picos de uso
+
+### 3. **Erros**
+- Tipos de erro
+- Frequência
+- Tempo de resolução
+
+## Próximos Passos:
+
+Na próxima aula, vamos aprender sobre:
+- Análise de dados e métricas
+- Otimização de performance
+- Escalabilidade
+- Monetização do chatbot
+
+---
+
+**Dica da Aula:** Comece com uma integração simples e vá expandindo gradualmente. É melhor ter poucas integrações que funcionam bem do que muitas que falham.
+
+**Tarefa para Casa:** Configure pelo menos uma integração simples (como salvar dados no Google Sheets) e teste o fluxo completo. 

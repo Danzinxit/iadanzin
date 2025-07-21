@@ -1,0 +1,104 @@
+# AULA 1: INTRODUÇÃO À INTELIGÊNCIA ARTIFICIAL E CHATBOTS
+
+## O que é Inteligência Artificial?
+
+A Inteligência Artificial (IA) é uma tecnologia que permite aos computadores simular a inteligência humana. Ela pode aprender, raciocinar, resolver problemas e até mesmo conversar como um ser humano.
+
+### Tipos de IA que você encontra no dia a dia:
+
+1. **Assistentes Virtuais**: Siri, Alexa, Google Assistant
+2. **Chatbots**: Bots de atendimento em sites
+3. **Recomendações**: Netflix, YouTube, Spotify
+4. **Navegação**: Google Maps, Waze
+5. **Tradutores**: Google Translate
+
+## O que é um Chatbot?
+
+Um chatbot é um programa de computador que simula uma conversa humana através de texto ou voz. Ele pode:
+- Responder perguntas
+- Ajudar com tarefas
+- Fornecer informações
+- Entreter usuários
+
+### Exemplos de Chatbots famosos:
+- **ChatGPT**: Conversas inteligentes
+- **Replika**: Companheiro virtual
+- **Woebot**: Apoio emocional
+- **Duolingo Bot**: Aprendizado de idiomas
+
+## Por que criar seu próprio Chatbot?
+
+### Vantagens:
+✅ **Personalização**: Você decide como ele se comporta
+✅ **Aprendizado**: Entenda como a IA funciona
+✅ **Diversão**: Crie algo único e interessante
+✅ **Portfolio**: Mostre suas habilidades
+✅ **Automação**: Automatize tarefas repetitivas
+
+### Possíveis usos:
+- Assistente pessoal
+- Tutor de estudos
+- Companheiro de conversa
+- Atendimento ao cliente
+- Jogos interativos
+
+## Conceitos Básicos para Entender:
+
+### 1. **Prompt (Instrução)**
+É a mensagem que você envia para a IA. Quanto mais clara e específica, melhor será a resposta.
+
+**Exemplo:**
+- Ruim: "Fale sobre cachorros"
+- Bom: "Explique as 5 raças de cachorros mais populares no Brasil, incluindo características e cuidados básicos"
+
+### 2. **Contexto**
+A IA precisa entender o que você quer. Forneça informações relevantes.
+
+### 3. **Personalidade**
+Você pode definir como sua IA deve se comportar:
+- Formal ou casual
+- Brincalhona ou séria
+- Especialista em um assunto
+- Companheira de conversa
+
+## Exercício Prático (Sem Programação):
+
+### Atividade 1: Criar um Personagem
+Imagine que você vai criar um chatbot. Responda:
+
+1. **Nome do seu chatbot:**
+   ________________________________
+
+2. **Personalidade (como ele se comporta):**
+   ________________________________
+
+3. **Especialidade (do que ele mais entende):**
+   ________________________________
+
+4. **Primeira mensagem que ele diria:**
+   ________________________________
+
+### Atividade 2: Testar Chatbots Existentes
+Visite estes sites e teste os chatbots:
+- chat.openai.com (ChatGPT)
+- character.ai
+- replika.com
+
+**Anote suas observações:**
+- Como eles respondem?
+- Que tipo de personalidade têm?
+- O que você gostou ou não gostou?
+
+## Próximos Passos:
+
+Na próxima aula, vamos aprender sobre:
+- Como funcionam os modelos de linguagem
+- Diferentes tipos de IA conversacional
+- Ferramentas gratuitas para criar chatbots
+- Estratégias para treinar sua IA
+
+---
+
+**Dica da Aula:** A melhor forma de entender chatbots é testando vários deles. Observe como cada um se comporta e pense no que você faria diferente!
+
+**Tarefa para Casa:** Passe 30 minutos conversando com diferentes chatbots e anote 3 coisas que você gostaria de implementar no seu próprio chatbot. 

@@ -395,6 +395,16 @@ const Index = () => {
             </div>
           </div>
           <ThemeToggleButton />
+          <a
+            href="https://chatcraftpro.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginLeft: 12 }}
+          >
+            <Button variant="secondary">
+              Quero o ChatCraft Pro!
+            </Button>
+          </a>
         </div>
         {/* Mensagens */}
         <div className="flex-1 overflow-y-auto">

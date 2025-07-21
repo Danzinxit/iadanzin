@@ -1,0 +1,169 @@
+# AULA 2: COMO FUNCIONAM OS MODELOS DE LINGUAGEM
+
+## O que são Modelos de Linguagem?
+
+Modelos de linguagem são programas de computador que entendem e geram texto humano. Eles são "treinados" com milhões de textos para aprender padrões da linguagem.
+
+### Analogia Simples:
+Imagine que você está ensinando uma criança a falar:
+- Você mostra muitos exemplos de frases
+- A criança aprende os padrões
+- Com o tempo, ela consegue formar suas próprias frases
+
+Os modelos de linguagem funcionam de forma similar, mas com muito mais dados!
+
+## Tipos de Modelos de Linguagem:
+
+### 1. **Modelos de Texto para Texto**
+- **Exemplo**: ChatGPT, Claude, Bard
+- **Função**: Recebem texto e geram texto como resposta
+- **Uso**: Conversas, redação, explicações
+
+### 2. **Modelos de Imagem para Texto**
+- **Exemplo**: GPT-4V, Claude Vision
+- **Função**: Analisam imagens e descrevem o que veem
+- **Uso**: Descrição de fotos, análise de documentos
+
+### 3. **Modelos de Texto para Imagem**
+- **Exemplo**: DALL-E, Midjourney, Stable Diffusion
+- **Função**: Criam imagens baseadas em descrições
+- **Uso**: Arte, ilustrações, design
+
+## Como os Modelos Aprendem:
+
+### Processo de Treinamento:
+1. **Coleta de Dados**: Milhões de textos, livros, artigos
+2. **Processamento**: Análise de padrões e estruturas
+3. **Aprendizado**: Identificação de relações entre palavras
+4. **Otimização**: Melhoria contínua das respostas
+
+### O que eles aprendem:
+- Gramática e sintaxe
+- Significado das palavras
+- Contexto das conversas
+- Estilo de escrita
+- Conhecimento geral
+
+## Limitações dos Modelos:
+
+### ⚠️ **Limitações Importantes:**
+- **Conhecimento limitado**: Só sabem o que foi treinado
+- **Alucinações**: Podem inventar informações
+- **Viés**: Podem refletir preconceitos dos dados
+- **Sem emoções reais**: Não sentem, apenas simulam
+- **Sem consciência**: Não têm autoconsciência
+
+### ✅ **Pontos Fortes:**
+- Processamento rápido de informações
+- Capacidade de síntese
+- Criatividade na geração de texto
+- Adaptação a diferentes estilos
+- Aprendizado contínuo
+
+## Ferramentas Gratuitas para Experimentar:
+
+### 1. **ChatGPT (OpenAI)**
+- **Site**: chat.openai.com
+- **Gratuito**: Sim (versão limitada)
+- **Melhor para**: Conversas gerais, redação
+
+### 2. **Claude (Anthropic)**
+- **Site**: claude.ai
+- **Gratuito**: Sim
+- **Melhor para**: Análise de documentos, redação técnica
+
+### 3. **Bard (Google)**
+- **Site**: bard.google.com
+- **Gratuito**: Sim
+- **Melhor para**: Pesquisas, informações atualizadas
+
+### 4. **Hugging Face**
+- **Site**: huggingface.co
+- **Gratuito**: Sim
+- **Melhor para**: Experimentar diferentes modelos
+
+## Exercício Prático: Comparando Modelos
+
+### Atividade: Teste os Três Principais
+
+**Pergunta para testar:**
+"Explique como fazer um bolo de chocolate simples em 3 passos"
+
+**Teste em cada plataforma e compare:**
+
+| Plataforma | Resposta | Estilo | Qualidade |
+|------------|----------|--------|-----------|
+| ChatGPT    |          |        |           |
+| Claude     |          |        |           |
+| Bard       |          |        |           |
+
+### Perguntas para análise:
+1. Qual foi mais detalhada?
+2. Qual foi mais fácil de entender?
+3. Qual você preferiu e por quê?
+
+## Conceitos Avançados (Para Entender):
+
+### 1. **Tokens**
+- São as unidades básicas que o modelo processa
+- Podem ser palavras, partes de palavras ou símbolos
+- Exemplo: "ChatGPT" = 2 tokens ("Chat" + "GPT")
+
+### 2. **Context Window (Janela de Contexto)**
+- Quantidade de texto que o modelo pode "lembrar"
+- Modelos mais novos têm janelas maiores
+- Importante para conversas longas
+
+### 3. **Temperature (Temperatura)**
+- Controla a criatividade das respostas
+- Baixa (0.1): Respostas mais previsíveis
+- Alta (0.9): Respostas mais criativas
+
+### 4. **Prompt Engineering**
+- Arte de escrever instruções eficazes
+- Quanto melhor o prompt, melhor a resposta
+
+## Dicas para Usar Modelos de Linguagem:
+
+### ✅ **Boas Práticas:**
+- Seja específico nas suas perguntas
+- Forneça contexto quando necessário
+- Peça exemplos se precisar
+- Use "pensamento passo a passo" para problemas complexos
+
+### ❌ **Evite:**
+- Perguntas muito vagas
+- Pedir informações muito recentes
+- Confiar cegamente nas respostas
+- Usar para informações médicas críticas
+
+## Exercício de Prompt Engineering:
+
+### Atividade: Melhorar Prompts
+
+**Prompt Ruim:** "Fale sobre programação"
+
+**Prompts Melhores:**
+1. "Explique os conceitos básicos de programação para um iniciante completo"
+2. "Compare Python e JavaScript para desenvolvimento web"
+3. "Dê 5 dicas práticas para aprender programação sozinho"
+
+**Sua vez! Melhore este prompt:**
+"Fale sobre música"
+
+**Seu prompt melhorado:**
+________________________________
+
+## Próximos Passos:
+
+Na próxima aula, vamos aprender sobre:
+- Ferramentas no-code para criar chatbots
+- Como configurar personalidades
+- Estratégias de conversação
+- Integração com APIs
+
+---
+
+**Dica da Aula:** Experimente fazer a mesma pergunta para diferentes modelos. Você vai se surpreender com as diferenças nas respostas!
+
+**Tarefa para Casa:** Teste pelo menos 2 modelos diferentes com a mesma pergunta e anote as diferenças. Depois, tente criar 3 prompts diferentes para a mesma tarefa. 
