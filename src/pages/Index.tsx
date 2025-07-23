@@ -12,6 +12,11 @@ import { Bot, Menu, X } from 'lucide-react';
 import { useTheme } from '../App';
 import { Sun, Moon } from 'lucide-react';
 import { useIsMobile } from '../hooks/use-mobile';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../components/ui/select';
+import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+// @ts-ignore: Não há tipos para @google/genai
+import { GoogleGenAI } from '@google/genai';
 
 interface Message {
   id: string;
@@ -41,6 +46,8 @@ const generateUUID = (): string => {
   });
 };
 
+const GEMINI_API_KEY = 'AIzaSyBzyvNd1e7S-QxDid1IYR6iR0NBjZoOcPY';
+
 const Index = () => {
   const [conversations, setConversations] = useState<Conversation[]>([
     {
@@ -68,6 +75,8 @@ const Index = () => {
   const websocketRef = useRef<WebSocket | null>(null);
   const currentMessageRef = useRef<string>('');
   const isMobile = useIsMobile();
+  const [selectedIA, setSelectedIA] = useState('gpt-3.5');
+  const navigate = useNavigate();
 
   // Fechar menu lateral quando mudar para desktop
   useEffect(() => {
@@ -242,7 +251,62 @@ const Index = () => {
     ));
 
     // Conectar ao WebSocket para obter resposta da IA
-    connectWebSocket(content, imageFile);
+    if (selectedIA === 'gpt-3.5') {
+      connectWebSocket(content, imageFile);
+    } else if (selectedIA === 'gemini') {
+      setIsReceiving(true);
+      setIsTyping(true);
+      // Mensagem da IA vazia inicialmente
+      const aiMessage: Message = {
+        id: generateUUID(),
+        content: '',
+        isUser: false,
+        timestamp: new Date()
+      };
+      setConversations(prev => prev.map(conv =>
+        conv.id === currentConversationId
+          ? {
+              ...conv,
+              messages: [...conv.messages, aiMessage],
+              lastUpdated: new Date()
+            }
+          : conv
+      ));
+      try {
+        const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: content,
+        });
+        const geminiText = response.text || response.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta da Gemini.';
+        setConversations(prev => prev.map(conv =>
+          conv.id === currentConversationId
+            ? {
+                ...conv,
+                messages: conv.messages.map(msg =>
+                  msg.id === aiMessage.id ? { ...msg, content: geminiText } : msg
+                ),
+                lastUpdated: new Date()
+              }
+            : conv
+        ));
+      } catch (err: any) {
+        setConversations(prev => prev.map(conv =>
+          conv.id === currentConversationId
+            ? {
+                ...conv,
+                messages: conv.messages.map(msg =>
+                  msg.id === aiMessage.id ? { ...msg, content: 'Erro Gemini: ' + (err?.message || 'Erro desconhecido.') } : msg
+                ),
+                lastUpdated: new Date()
+              }
+            : conv
+        ));
+      }
+      setIsReceiving(false);
+      setIsTyping(false);
+      setIsProcessingImage(false);
+    }
     
     // Limpar URL da imagem após um tempo
     if (imageUrl) {
@@ -391,7 +455,7 @@ const Index = () => {
             </div>
             <div className="animate-fade-in-left">
               <h1 className="text-lg font-semibold text-white">ChatCraft Pro</h1>
-              <p className="text-sm text-red-300">Vamos ter uma conversa dançante!</p>
+              <p className="text-sm text-red-300">Modelo atual: {selectedIA === 'gpt-3.5' ? 'GPT-3.5' : 'Gemini Pro'}</p>
             </div>
           </div>
           <ThemeToggleButton />
@@ -427,11 +491,29 @@ const Index = () => {
         </div>
         {/* Entrada de texto */}
         <div className="max-w-4xl mx-auto w-full">
-          <MessageInput
-            onSendMessage={handleSendMessage}
-            disabled={isTyping || isReceiving}
-            isProcessingImage={isProcessingImage}
-          />
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Select value={selectedIA} onValueChange={(value) => {
+                setSelectedIA(value);
+              }}>
+                <SelectTrigger className="w-36 bg-black border-red-700 text-red-100 focus:border-red-500 focus:ring-red-500 rounded-xl">
+                  <SelectValue placeholder="Escolha a IA" />
+                  <ChevronDown className="ml-2 w-4 h-4 text-red-400" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gpt-3.5">GPT-3.5</SelectItem>
+                  <SelectItem value="gemini">Gemini Pro</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex-1">
+              <MessageInput
+                onSendMessage={handleSendMessage}
+                disabled={isTyping || isReceiving}
+                isProcessingImage={isProcessingImage}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
